@@ -6389,8 +6389,13 @@ int main(int argc, char **argv) {
     redisSetCpuAffinity(server.server_cpulist);
     setOOMScoreAdj(-1);
 
+    // 启动事件循环 
     aeMain(server.el);
+
+    // 退出eventloop后的清理工作
     aeDeleteEventLoop(server.el);
+    
+    
     return 0;
 }
 
