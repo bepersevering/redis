@@ -6206,13 +6206,19 @@ int main(int argc, char **argv) {
      * to reset it and restore it back. We do this early to avoid a potential
      * race condition with threads that could be creating files or directories.
      */
+     
     umask(server.umask = umask(0777));
 
     uint8_t hashseed[16];
     getRandomBytes(hashseed,sizeof(hashseed));
     dictSetHashFunctionSeed(hashseed);
+    // sentinel 模式设置
     server.sentinel_mode = checkForSentinelMode(argc,argv);
+
+    // 初始化ServerConfig
     initServerConfig();
+
+    // ACL初始化（access control list）
     ACLInit(); /* The ACL subsystem must be initialized ASAP because the
                   basic networking code and client creation depends on it. */
     moduleInitModulesSystem();
