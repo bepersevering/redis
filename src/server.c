@@ -1914,7 +1914,8 @@ void databasesCron(void) {
  * such info only when calling this function from serverCron() but not when
  * calling it from call(). */
 void updateCachedTime(int update_daylight_info) {
-    server.ustime = ustime();
+    // 获取当前的微秒级时间戳，并将其存储在 server.ustime 中。
+    server.ustime = ustime();   
     server.mstime = server.ustime / 1000;
     time_t unixtime = server.mstime / 1000;
     atomicSet(server.unixtime, unixtime);
@@ -2631,8 +2632,10 @@ void createSharedObjects(void) {
 
 void initServerConfig(void) {
     int j;
-
+    // 更新缓存时间，以便下次获取更快
+    // updateCachedTime 方法的作用是更新 Redis 服务器中的缓存时间，避免在每次需要时间时调用系统函数，从而提高性能。具体地，这个方法更新了全局状态中的几个时间相关的变量，并根据需要更新夏令时信息。以下是该方法的详细说明：
     updateCachedTime(1);
+
     getRandomHexChars(server.runid,CONFIG_RUN_ID_SIZE);
     server.runid[CONFIG_RUN_ID_SIZE] = '\0';
     changeReplicationId();
