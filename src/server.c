@@ -2685,8 +2685,11 @@ void initServerConfig(void) {
     server.next_client_id = 1; /* Client IDs, start from 1 .*/
     server.loading_process_events_interval_bytes = (1024*1024*2);
 
+    // LRU lock
     unsigned int lruclock = getLRUClock();
     atomicSet(server.lruclock,lruclock);
+
+    // reset server save params
     resetServerSaveParams();
 
     appendServerSaveParams(60*60,1);  /* save after 1 hour and 1 change */
