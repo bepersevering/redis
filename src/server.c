@@ -2744,6 +2744,7 @@ void initServerConfig(void) {
      * redis.conf using the rename-command directive. */
     server.commands = dictCreate(&commandTableDictType,NULL);
     server.orig_commands = dictCreate(&commandTableDictType,NULL);
+    // 准备命令表
     populateCommandTable();
     server.delCommand = lookupCommandByCString("del");
     server.multiCommand = lookupCommandByCString("multi");
@@ -2770,6 +2771,7 @@ void initServerConfig(void) {
      * Redis 5. However it is possible to revert it via redis.conf. */
     server.lua_always_replicate_commands = 1;
 
+    // 初始化配置值
     initConfigValues();
 }
 
@@ -6228,6 +6230,7 @@ int main(int argc, char **argv) {
     ACLInit(); /* The ACL subsystem must be initialized ASAP because the
                   basic networking code and client creation depends on it. */
     moduleInitModulesSystem();
+    // tls init
     tlsInit();
 
     /* Store the executable path and arguments in a safe place in order
