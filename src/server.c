@@ -6308,8 +6308,10 @@ int main(int argc, char **argv) {
             j++;
         }
 
+        // load server config by config file
         loadServerConfig(server.configfile, config_from_stdin, options);
         if (server.sentinel_mode) loadSentinelConfigFromQueue();
+        // sds free
         sdsfree(options);
     }
     if (server.sentinel_mode) sentinelCheckConfigFile();
@@ -6333,6 +6335,7 @@ int main(int argc, char **argv) {
     }
 
     readOOMScoreAdj();
+    // init redis server
     initServer();
     if (background || server.pidfile) createPidFile();
     if (server.set_proc_title) redisSetProcTitle(NULL);

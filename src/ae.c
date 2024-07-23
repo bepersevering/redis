@@ -484,6 +484,7 @@ int aeWait(int fd, int mask, long long milliseconds) {
 void aeMain(aeEventLoop *eventLoop) {
     // eventloop.stop 设置为0，循环检测eventloop.stop，如果为1，则退出eventloop
     eventLoop->stop = 0;
+    
     while (!eventLoop->stop) {
         aeProcessEvents(eventLoop, AE_ALL_EVENTS|
                                    AE_CALL_BEFORE_SLEEP|
